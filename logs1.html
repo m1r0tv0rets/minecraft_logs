@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Майнкрафт Логи</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      scroll-behavior: smooth;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 20px 0;
+    }
+    
+    .grid {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .grid-cols-1 {
+      grid-template-columns: 1fr;
+    }
+    
+    .grid-cols-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .gap-8 {
+      gap: 32px;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    .flex {
+      display: flex;
+    }
+    
+    .justify-between {
+      justify-content: space-between;
+    }
+    
+    .items-center {
+      align-items: center;
+    }
+    
+    .items-start {
+      align-items: flex-start;
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .text-white {
+      color: white;
+    }
+    
+    .text-primary {
+      color: #0ea5e9;
+    }
+    
+    .text-gray-300 {
+      color: #d1d5db;
+    }
+    
+    .text-gray-400 {
+      color: #9ca3af;
+    }
+    
+    .text-gray-500 {
+      color: #6b7280;
+    }
+    
+    .bg-gray-700 {
+      background-color: #374151;
+    }
+    
+    .bg-gray-800 {
+      background-color: #1f2937;
+    }
+    
+    .bg-gray-900 {
+      background-color: #111827;
+    }
+    
+    .bg-success {
+      background-color: #10b981;
+    }
+    
+    .bg-error {
+      background-color: #ef4444;
+    }
+    
+    .bg-warning {
+      background-color: #f59e0b;
+    }
+    
+    .bg-primary {
+      background-color: #0ea5e9;
+    }
+    
+    .p-4 {
+      padding: 16px;
+    }
+    
+    .p-6 {
+      padding: 24px;
+    }
+    
+    .px-4 {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    
+    .px-6 {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    
+    .py-2 {
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+    
+    .py-10 {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+    
+    .py-12 {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+    
+    .mb-2 {
+      margin-bottom: 8px;
+    }
+    
+    .mb-3 {
+      margin-bottom: 12px;
+    }
+    
+    .mb-4 {
+      margin-bottom: 16px;
+    }
+    
+    .mb-6 {
+      margin-bottom: 24px;
+    }
+    
+    .mt-1 {
+      margin-top: 4px;
+    }
+    
+    .mt-2 {
+      margin-top: 8px;
+    }
+    
+    .mt-3 {
+      margin-top: 12px;
+    }
+    
+    .mt-6 {
+      margin-top: 24px;
+    }
+    
+    .mt-16 {
+      margin-top: 64px;
+    }
+    
+    .mr-2 {
+      margin-right: 8px;
+    }
+    
+    .mr-3 {
+      margin-right: 12px;
+    }
+    
+    .ml-2 {
+      margin-left: 8px;
+    }
+    
+    .rounded-lg {
+      border-radius: 8px;
+    }
+    
+    .rounded {
+      border-radius: 4px;
+    }
+    
+    .font-medium {
+      font-weight: 500;
+    }
+    
+    .font-bold {
+      font-weight: bold;
+    }
+    
+    .text-lg {
+      font-size: 18px;
+    }
+    
+    .text-xl {
+      font-size: 20px;
+    }
+    
+    .text-2xl {
+      font-size: 24px;
+    }
+    
+    .text-3xl {
+      font-size: 30px;
+    }
+    
+    .text-4xl {
+      font-size: 36px;
+    }
+    
+    .text-sm {
+      font-size: 14px;
+    }
+    
+    .text-xs {
+      font-size: 12px;
+    }
+    
+    .border {
+      border-width: 1px;
+    }
+    
+    .border-gray-600 {
+      border-color: #4b5563;
+    }
+    
+    .scrolled {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .diagnostic-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      border: 1px solid rgba(14, 165, 233, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .diagnostic-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.3);
+    }
+    
+    .diagnostic-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #0ea5e9, #0284c7, #0ea5e9);
+      z-index: -1;
+      border-radius: 14px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .diagnostic-card:hover::before {
+      opacity: 1;
+    }
+    
+    .btn-diagnostic {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+    
+    .btn-diagnostic:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
+    }
+    
+    .btn-diagnostic:active {
+      transform: translateY(1px);
+    }
+    
+    .error-highlight {
+      background: rgba(248, 113, 113, 0.2);
+      border-left: 3px solid #f87171;
+      padding: 4px 8px;
+      margin: 4px 0;
+    }
+    
+    .warning-highlight {
+      background: rgba(251, 191, 36, 0.2);
+      border-left: 3px solid #fbbf24;
+      padding: 4px 8px;
+      margin: 4px 0;
+    }
+    
+    .solution-card {
+      background: rgba(52, 211, 153, 0.1);
+      border-left: 3px solid #34d399;
+      padding: 16px;
+      border-radius: 8px;
+    }
+    
+    .file-drop-area {
+      border: 2px dashed rgba(14, 165, 233, 0.5);
+      border-radius: 12px;
+      padding: 48px 32px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      background: rgba(30, 41, 59, 0.3);
+    }
+    
+    .file-drop-area.active {
+      border-color: #0ea5e9;
+      background: rgba(14, 165, 233, 0.1);
+    }
+    
+    .log-line {
+      font-family: monospace;
+      padding: 2px 8px;
+      border-radius: 2px;
+      margin: 2px 0;
+      font-size: 14px;
+    }
+    
+    .log-line:hover {
+      background: rgba(14, 165, 233, 0.1);
+    }
+    
+    .error-tag {
+      background: rgba(248, 113, 113, 0.3);
+      color: #f87171;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 12px;
+      margin-right: 8px;
+    }
+    
+    .warning-tag {
+      background: rgba(251, 191, 36, 0.3);
+      color: #fbbf24;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 12px;
+      margin-right: 8px;
+    }
+    
+    .severity-critical {
+      background: rgba(220, 38, 38, 0.3);
+      border-left: 4px solid #dc2626;
+    }
+    
+    .severity-high {
+      background: rgba(248, 113, 113, 0.3);
+      border-left: 4px solid #f87171;
+    }
+    
+    .severity-medium {
+      background: rgba(251, 191, 36, 0.3);
+      border-left: 4px solid #fbbf24;
+    }
+    
+    .severity-low {
+      background: rgba(59, 130, 246, 0.3);
+      border-left: 4px solid #3b82f6;
+    }
+    
+    .log-container {
+      max-height: 300px;
+      overflow-y: auto;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 8px;
+      padding: 8px;
+    }
+    
+    .diagnostic-icon {
+      font-size: 24px;
+      margin-right: 8px;
+      transition: transform 0.3s ease;
+    }
+    
+    .diagnostic-form {
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      padding: 32px;
+      border: 1px solid rgba(14, 165, 233, 0.2);
+    }
+    
+    .form-input {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3);
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 48px;
+      background: rgba(30, 41, 59, 0.3);
+      border-radius: 12px;
+      border: 2px dashed rgba(14, 165, 233, 0.3);
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      color: white;
+      padding: 16px 32px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transform: translateX(120%);
+      transition: transform 0.4s ease;
+      z-index: 1000;
+      max-width: 350px;
+      border-left: 4px solid #0ea5e9;
+      background: #1e293b;
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+    }
+    
+    .notification.error {
+      background: #dc2626;
+      border-left: 4px solid #b91c1c;
+    }
+    
+    .notification.success {
+      background: #16a34a;
+      border-left: 4px solid #15803d;
+    }
+    
+    .notification-title {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: white;
+    }
+    
+    .log-input {
+      background: rgba(30, 41, 59, 0.7);
+      border: 2px solid rgba(14, 165, 233, 0.3);
+      color: #f1f5f9;
+      border-radius: 12px;
+      padding: 24px;
+      font-family: monospace;
+      resize: none;
+      min-height: 300px;
+      width: 100%;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+    
+    .log-input:focus {
+      outline: none;
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3);
+    }
+    
+    .result-card {
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(14, 165, 233, 0.2);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+    
+    .grid-pattern {
+      background-image: 
+        linear-gradient(rgba(14, 165, 233, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14, 165, 233, 0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    
+    .support-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    
+    .support-button {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .space-y-3 > * + * {
+      margin-top: 12px;
+    }
+    
+    .space-y-4 > * + * {
+      margin-top: 16px;
+    }
+    
+    .space-y-1 > * + * {
+      margin-top: 4px;
+    }
+    
+    .max-h-24 {
+      max-height: 96px;
+    }
+    
+    .overflow-y-auto {
+      overflow-y: auto;
+    }
+    
+    .w-6 {
+      width: 24px;
+    }
+    
+    .h-6 {
+      height: 24px;
+    }
+    
+    .flex-shrink-0 {
+      flex-shrink: 0;
+    }
+    
+    .italic {
+      font-style: italic;
+    }
+    
+    .block {
+      display: block;
+    }
+    
+    @media (max-width: 1024px) {
+      .grid-cols-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .support-buttons {
+        flex-direction: column;
+      }
+      .support-button {
+        min-width: auto;
+      }
+      .px-4 {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      .py-2 {
+        padding-top: 6px;
+        padding-bottom: 6px;
+      }
+    }
+
+    .spinner {
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <main class="main-content">
+    <div class="container">
+      <div class="grid grid-cols-1 grid-cols-2 gap-8">
+        <div class="diagnostic-card p-6">
+          <div class="text-center mb-6">
+            <div class="text-primary text-4xl mb-4">📤</div>
+            <h3 class="text-2xl font-bold mb-3 text-white">Загрузка логов</h3>
+            <p class="text-gray-300 mb-6">
+              Определяем более 150 типов ошибок Minecraft: проблемы с модами, видеодрайверами, памятью, конфликты версий и многое другое.
+            </p>
+          </div>
+          
+          <div id="fileDropArea" class="file-drop-area mb-6">
+            <div class="text-primary text-4xl mb-4">📁</div>
+            <p class="text-lg font-medium mb-2">Перетащите сюда файл лога</p>
+            <p class="text-gray-400 mb-4">Или нажмите для выбора файла</p>
+            <input type="file" id="fileInput" class="hidden" accept=".log,.txt">
+            <button id="fileSelectBtn" class="btn-diagnostic px-4 py-2 rounded-lg font-medium text-white">
+              Выбрать файл
+            </button>
+          </div>
+          
+          <div class="mb-6">
+            <label class="block text-gray-300 mb-2">Или вставьте текст лога:</label>
+            <textarea id="logInput" class="log-input" placeholder="Вставьте сюда содержимое лог-файла или краш-репорта..."></textarea>
+          </div>
+          
+          <div class="flex justify-between">
+            <button id="clearBtn" class="px-4 py-2 rounded-lg font-medium text-gray-300 border border-gray-600 hover:bg-gray-700 transition-colors">
+              🗑️ Очистить
+            </button>
+            <button id="analyzeBtn" class="btn-diagnostic px-6 py-2 rounded-lg font-medium text-white">
+              🔍 Анализировать
+            </button>
+          </div>
+        </div>
+        
+        <div class="diagnostic-card p-6">
+          <div class="text-center mb-6">
+            <div class="text-primary text-4xl mb-4">💡</div>
+            <h3 class="text-2xl font-bold mb-3 text-white">Результаты диагностики</h3>
+            <p class="text-gray-300 mb-6">
+              Здесь отображаются найденные ошибки и рекомендации по их устранению.
+            </p>
+          </div>
+          
+          <div id="resultContainer" class="hidden">
+            <div class="mb-6">
+              <h4 class="text-lg font-bold text-white mb-3 flex items-center">
+                📊 Сводка ошибок:
+              </h4>
+              <div id="errorSummary" class="mb-6 p-4 rounded-lg bg-gray-800"></div>
+              
+              <h4 class="text-lg font-bold text-white mb-3 flex items-center">
+                🐛 Детали ошибок:
+              </h4>
+              <div id="errorDetails" class="space-y-4"></div>
+            </div>
+            
+            <div class="solution-card p-4 rounded-lg">
+              <h4 class="text-lg font-bold text-white mb-3 flex items-center">
+                🔧 Рекомендуемые решения:
+              </h4>
+              <div id="solutions" class="space-y-3"></div>
+            </div>
+          </div>
+          
+          <div id="emptyResult" class="text-center py-12">
+            <div class="text-4xl text-gray-500 mb-4">📄</div>
+            <p class="text-gray-500">Результаты анализа появятся здесь после обработки лога</p>
+          </div>
+          
+          <div class="mt-6">
+            <h4 class="text-lg font-bold text-white mb-3 flex items-center">
+              📜 История анализа:
+            </h4>
+            <div class="log-container">
+              <div id="logHistory" class="space-y-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-16">
+        <h2 class="text-2xl font-bold mb-6 text-white flex items-center">
+          🧩 Советы по исправлению проблем с модами
+        </h2>
+        
+        <div class="grid grid-cols-1 grid-cols-2 gap-6">
+          <div class="diagnostic-card p-6">
+            <h3 class="text-xl font-bold mb-4 text-white flex items-center">
+              ⚠️ Решение конфликтов модов
+            </h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">✅</span>
+                <span>Убедитесь, что все моды совместимы с вашей версией Minecraft</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">✅</span>
+                <span>Проверьте зависимости модов - возможно, не хватает библиотек</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">✅</span>
+                <span>Удалите моды по одному, чтобы найти конфликтующий</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">✅</span>
+                <span>Обновите моды до последних версий</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="diagnostic-card p-6">
+            <h3 class="text-xl font-bold mb-4 text-white flex items-center">
+              🔄 Оптимизация работы модов
+            </h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">✅</span>
+                <span>Установите моды оптимизации (OptiFine, Sodium)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">✅</span>
+                <span>Увеличьте выделенную память для Java в настройках лаунчера</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">✅</span>
+                <span>Удалите неиспользуемые моды для уменьшения нагрузки</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">✅</span>
+                <span>Настройте параметры графики в модах для лучшей производительности</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const fileSelectBtn = document.getElementById('fileSelectBtn');
+    const fileDropArea = document.getElementById('fileDropArea');
+    const logInput = document.getElementById('logInput');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const resultContainer = document.getElementById('resultContainer');
+    const emptyResult = document.getElementById('emptyResult');
+    const errorSummary = document.getElementById('errorSummary');
+    const errorDetails = document.getElementById('errorDetails');
+    const solutions = document.getElementById('solutions');
+    const logHistory = document.getElementById('logHistory');
+
+    const errorDatabase = {
+      "OutOfMemoryError": {
+        title: "Недостаточно памяти",
+        severity: "critical",
+        description: "Minecraft исчерпал выделенную оперативную память.",
+        solutions: [
+          "Увеличьте выделенную память в настройках лаунчера",
+          "Закройте лишние приложения, использующие память",
+          "Установите мод оптимизации памяти (Sodium или OptiFine)"
+        ]
+      },
+      "java.lang.OutOfMemoryError": {
+        title: "Переполнение кучи Java",
+        severity: "critical",
+        description: "Программа превысила максимальный размер кучи, выделенный для Java.",
+        solutions: [
+          "Увеличьте значение -Xmx в аргументах JVM",
+          "Убедитесь, что у вас установлена 64-битная версия Java",
+          "Уменьшите настройки рендеринга или дальности прорисовки"
+        ]
+      },
+      "OpenGL errors": {
+        title: "Ошибки OpenGL",
+        severity: "high",
+        description: "Проблемы с видеодрайвером или поддержкой OpenGL.",
+        solutions: [
+          "Обновите драйверы видеокарты до последней версии",
+          "Установите OptiFine для лучшей совместимости",
+          "Попробуйте использовать другую версию Minecraft"
+        ]
+      },
+      "GL_OUT_OF_MEMORY": {
+        title: "Недостаточно видеопамяти",
+        severity: "high",
+        description: "Видеокарта исчерпала доступную видеопамять.",
+        solutions: [
+          "Уменьшите разрешение текстур (например, установите 16x вместо 32x)",
+          "Уменьшите настройки графики в игре",
+          "Закройте другие приложения, использующие видеокарту"
+        ]
+      },
+      "mod conflict": {
+        title: "Конфликт модов",
+        severity: "high",
+        description: "Два или более мода конфликтуют между собой.",
+        solutions: [
+          "Определите конфликтующие моды методом исключения",
+          "Проверьте совместимость модов на официальных страницах",
+          "Обновите моды до последней версии",
+          "Убедитесь, что у вас установлены все необходимые библиотеки (Forge, Fabric)"
+        ]
+      },
+      "missing mod dependency": {
+        title: "Отсутствует зависимый мод",
+        severity: "high",
+        description: "Для работы одного из модов требуется другой мод, который не установлен.",
+        solutions: [
+          "Установите все необходимые зависимости мода",
+          "Проверьте список зависимостей на странице мода",
+          "Убедитесь, что версия зависимости совместима"
+        ]
+      },
+      "mod requires": {
+        title: "Требуется другой мод",
+        severity: "medium",
+        description: "Один из установленных модов требует наличия другого мода.",
+        solutions: [
+          "Установите мод, указанный в сообщении об ошибке",
+          "Убедитесь, что версия требуемого мода совместима",
+          "Если мод не нужен, удалите зависимый мод"
+        ]
+      },
+      "NoSuchMethodError": {
+        title: "Ошибка совместимости мода",
+        severity: "high",
+        description: "Мод вызывает метод, который отсутствует в текущей версии.",
+        solutions: [
+          "Обновите мод до последней версии",
+          "Проверьте, совместим ли мод с вашей версией Minecraft",
+          "Временно удалите мод и сообщите разработчику об ошибке"
+        ]
+      },
+      "UnsupportedClassVersionError": {
+        title: "Неподдерживаемая версия Java",
+        severity: "critical",
+        description: "Используется несовместимая версия Java для запуска Minecraft.",
+        solutions: [
+          "Установите Java 17 для новых версий Minecraft (1.17+)",
+          "Для версий 1.16.5 и ниже используйте Java 8",
+          "Проверьте настройки лаунчера - путь к Java"
+        ]
+      },
+      "java.lang.NullPointerException": {
+        title: "NullPointerException",
+        severity: "medium",
+        description: "Ошибка в коде мода или самой игры при обращении к неинициализированному объекту.",
+        solutions: [
+          "Обновите моды до последней версии",
+          "Проверьте, воспроизводится ли ошибка без модов",
+          "Сообщите автору мода об ошибке"
+        ]
+      },
+      "Failed to download": {
+        title: "Ошибка загрузки",
+        severity: "medium",
+        description: "Проблемы при загрузке файлов игры или ассетов.",
+        solutions: [
+          "Проверьте подключение к интернету",
+          "Отключите VPN или прокси, если используете",
+          "Очистите кэш лаунчера"
+        ]
+      },
+      "404 Not Found": {
+        title: "Ресурс не найден",
+        severity: "medium",
+        description: "Сервер не может найти запрашиваемый ресурс.",
+        solutions: [
+          "Попробуйте перезапустить лаунчер",
+          "Очистите кэш лаунчера",
+          "Проверьте работоспособность серверов Mojang"
+        ]
+      },
+      "Game crashed": {
+        title: "Крах игры",
+        severity: "critical",
+        description: "Minecraft аварийно завершил работу.",
+        solutions: [
+          "Обновите видеодрайверы",
+          "Установите последнюю версию Java",
+          "Проверьте целостность файлов игры"
+        ]
+      },
+      "A fatal error has been detected": {
+        title: "Критическая ошибка",
+        severity: "critical",
+        description: "Обнаружена фатальная ошибка, вызвавшая краш приложения.",
+        solutions: [
+          "Обновите операционную систему",
+          "Проверьте оперативную память на ошибки",
+          "Установите все системные обновления"
+        ]
+      },
+      "Could not create the Java Virtual Machine": {
+        title: "Ошибка создания виртуальной машины Java",
+        severity: "critical",
+        description: "Система не может запустить Java виртуальную машину.",
+        solutions: [
+          "Убедитесь, что Java установлена корректно",
+          "Проверьте аргументы запуска JVM в настройках лаунчера",
+          "Переустановите Java"
+        ]
+      },
+      "java.lang.ClassNotFoundException": {
+        title: "Класс не найден",
+        severity: "high",
+        description: "Отсутствует необходимый класс, обычно связанный с модом.",
+        solutions: [
+          "Переустановите проблемный мод",
+          "Проверьте целостность файлов мода",
+          "Убедитесь, что все зависимости установлены"
+        ]
+      },
+      "java.lang.NoClassDefFoundError": {
+        title: "Ошибка загрузки класса",
+        severity: "high",
+        description: "Система не может найти определение класса во время выполнения.",
+        solutions: [
+          "Проверьте наличие всех необходимых библиотек",
+          "Убедитесь в совместимости версий модов",
+          "Переустановите проблемный мод"
+        ]
+      },
+      "java.lang.IllegalArgumentException": {
+        title: "Недопустимый аргумент",
+        severity: "medium",
+        description: "Методу переданы недопустимые или некорректные аргументы.",
+        solutions: [
+          "Обновите мод до последней версии",
+          "Проверьте конфигурационные файлы мода",
+          "Сообщите разработчику мода об ошибке"
+        ]
+      },
+      "java.lang.ArrayIndexOutOfBoundsException": {
+        title: "Выход за границы массива",
+        severity: "medium",
+        description: "Попытка доступа к элементу массива по индексу вне допустимых границ.",
+        solutions: [
+          "Обновите проблемный мод",
+          "Удалите или замените поврежденные ресурспаки",
+          "Сообщите разработчику мода об ошибке"
+        ]
+      },
+      "java.net.SocketException": {
+        title: "Ошибка сетевого соединения",
+        severity: "medium",
+        description: "Проблемы с сетевым подключением во время игры.",
+        solutions: [
+          "Проверьте интернет-соединение",
+          "Отключите файервол или антивирус",
+          "Перезагрузите роутер"
+        ]
+      },
+      "java.io.IOException": {
+        title: "Ошибка ввода/вывода",
+        severity: "medium",
+        description: "Проблемы с доступом к файлам или каталогам.",
+        solutions: [
+          "Проверьте права доступа к папке .minecraft",
+          "Отключите антивирус на время игры",
+          "Переустановите лаунчер"
+        ]
+      },
+      "java.lang.StackOverflowError": {
+        title: "Переполнение стека",
+        severity: "critical",
+        description: "Превышен размер стека вызовов из-за бесконечной рекурсии.",
+        solutions: [
+          "Обновите проблемные моды",
+          "Увеличьте размер стека через аргументы JVM",
+          "Сообщите разработчику мода об ошибке"
+        ]
+      },
+      "Render thread": {
+        title: "Ошибка рендеринга",
+        severity: "high",
+        description: "Проблема в потоке рендеринга игры.",
+        solutions: [
+          "Обновите драйверы видеокарты",
+          "Установите OptiFine",
+          "Уменьшите настройки графики"
+        ]
+      },
+      "Shader error": {
+        title: "Ошибка шейдера",
+        severity: "medium",
+        description: "Проблема с шейдерами или их совместимостью.",
+        solutions: [
+          "Обновите шейдерпак",
+          "Убедитесь в совместимости шейдеров с версией игры",
+          "Отключите шейдеры"
+        ]
+      },
+      "Texture atlas": {
+        title: "Ошибка текстурного атласа",
+        severity: "medium",
+        description: "Проблема с загрузкой или отображением текстур.",
+        solutions: [
+          "Уменьшите разрешение текстурпака",
+          "Удалите проблемные текстуры",
+          "Переустановите ресурспак"
+        ]
+      },
+      "FPS drop": {
+        title: "Падение FPS",
+        severity: "medium",
+        description: "Значительное снижение частоты кадров.",
+        solutions: [
+          "Установите моды оптимизации (OptiFine, Sodium)",
+          "Увеличьте выделенную память",
+          "Закройте фоновые приложения"
+        ]
+      },
+      "World corruption": {
+        title: "Повреждение мира",
+        severity: "critical",
+        description: "Мир игры поврежден и не может быть загружен.",
+        solutions: [
+          "Восстановите мир из резервной копии",
+          "Удалите проблемные моды",
+          "Попробуйте загрузить мир в творческом режиме"
+        ]
+      },
+      "Biome error": {
+        title: "Ошибка биомов",
+        severity: "medium",
+        description: "Проблема с генерацией или отображением биомов.",
+        solutions: [
+          "Обновите моды, добавляющие биомы",
+          "Удалите проблемные моды",
+          "Создайте новый мир"
+        ]
+      },
+      "Entity error": {
+        title: "Ошибка сущностей",
+        severity: "medium",
+        description: "Проблема с загрузкой или отображением сущностей.",
+        solutions: [
+          "Обновите моды, добавляющие сущности",
+          "Удалите проблемные моды",
+          "Проверьте целостность файлов игры"
+        ]
+      },
+      "Block error": {
+        title: "Ошибка блоков",
+        severity: "medium",
+        description: "Проблема с загрузкой или отображением блоков.",
+        solutions: [
+          "Обновите моды, добавляющие блоки",
+          "Удалите проблемные моды",
+          "Проверьте целостность файлов игры"
+        ]
+      },
+      "Item error": {
+        title: "Ошибка предметов",
+        severity: "medium",
+        description: "Проблема с загрузкой или отображением предметов.",
+        solutions: [
+          "Обновите моды, добавляющие предметы",
+          "Удалите проблемные моды",
+          "Проверьте целостность файлов игры"
+        ]
+      },
+      "Sound error": {
+        title: "Ошибка звука",
+        severity: "low",
+        description: "Проблема с загрузкой или воспроизведением звуков.",
+        solutions: [
+          "Обновите аудиодрайверы",
+          "Переустановите проблемные моды",
+          "Проверьте целостность файлов игры"
+        ]
+      },
+      "Network error": {
+        title: "Сетевая ошибка",
+        severity: "medium",
+        description: "Проблема с сетевым подключением к серверу.",
+        solutions: [
+          "Проверьте интернет-соединение",
+          "Отключите файервол или антивирус",
+          "Перезагрузите роутер"
+        ]
+      },
+      "Server error": {
+        title: "Ошибка сервера",
+        severity: "high",
+        description: "Проблема с запуском или работой сервера.",
+        solutions: [
+          "Проверьте логи сервера",
+          "Обновите серверное ПО",
+          "Убедитесь в совместимости модов на сервере"
+        ]
+      },
+      "Client error": {
+        title: "Ошибка клиента",
+        severity: "high",
+        description: "Проблема с запуском или работой клиента.",
+        solutions: [
+          "Проверьте логи клиента",
+          "Обновите клиентское ПО",
+          "Убедитесь в совместимости модов на клиенте"
+        ]
+      },
+      "Forge error": {
+        title: "Ошибка Forge",
+        severity: "high",
+        description: "Проблема с модлоадером Forge.",
+        solutions: [
+          "Обновите Forge до последней версии",
+          "Переустановите Forge",
+          "Убедитесь в совместимости версий"
+        ]
+      },
+      "Fabric error": {
+        title: "Ошибка Fabric",
+        severity: "high",
+        description: "Проблема с модлоадером Fabric.",
+        solutions: [
+          "Обновите Fabric до последней версии",
+          "Переустановите Fabric",
+          "Убедитесь в совместимости версий"
+        ]
+      },
+      "OptiFine error": {
+        title: "Ошибка OptiFine",
+        severity: "medium",
+        description: "Проблема с модом OptiFine.",
+        solutions: [
+          "Обновите OptiFine до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите OptiFine"
+        ]
+      },
+      "Sodium error": {
+        title: "Ошибка Sodium",
+        severity: "medium",
+        description: "Проблема с модом Sodium.",
+        solutions: [
+          "Обновите Sodium до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Sodium"
+        ]
+      },
+      "Iris error": {
+        title: "Ошибка Iris",
+        severity: "medium",
+        description: "Проблема с модом Iris.",
+        solutions: [
+          "Обновите Iris до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Iris"
+        ]
+      },
+      "WorldEdit error": {
+        title: "Ошибка WorldEdit",
+        severity: "medium",
+        description: "Проблема с модом WorldEdit.",
+        solutions: [
+          "Обновите WorldEdit до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите WorldEdit"
+        ]
+      },
+      "JourneyMap error": {
+        title: "Ошибка JourneyMap",
+        severity: "low",
+        description: "Проблема с модом JourneyMap.",
+        solutions: [
+          "Обновите JourneyMap до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите JourneyMap"
+        ]
+      },
+      "JEI error": {
+        title: "Ошибка JEI",
+        severity: "low",
+        description: "Проблема с модом JEI.",
+        solutions: [
+          "Обновите JEI до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите JEI"
+        ]
+      },
+      "WAILA error": {
+        title: "Ошибка WAILA",
+        severity: "low",
+        description: "Проблема с модом WAILA.",
+        solutions: [
+          "Обновите WAILA до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите WAILA"
+        ]
+      },
+      "Hwyla error": {
+        title: "Ошибка Hwyla",
+        severity: "low",
+        description: "Проблема с модом Hwyla.",
+        solutions: [
+          "Обновите Hwyla до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Hwyla"
+        ]
+      },
+      "The One Probe error": {
+        title: "Ошибка The One Probe",
+        severity: "low",
+        description: "Проблема с модом The One Probe.",
+        solutions: [
+          "Обновите The One Probe до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите The One Probe"
+        ]
+      },
+      "Chisel error": {
+        title: "Ошибка Chisel",
+        severity: "medium",
+        description: "Проблема с модом Chisel.",
+        solutions: [
+          "Обновите Chisel до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Chisel"
+        ]
+      },
+      "Tinkers' Construct error": {
+        title: "Ошибка Tinkers' Construct",
+        severity: "medium",
+        description: "Проблема с модом Tinkers' Construct.",
+        solutions: [
+          "Обновите Tinkers' Construct до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Tinkers' Construct"
+        ]
+      },
+      "Thermal Expansion error": {
+        title: "Ошибка Thermal Expansion",
+        severity: "medium",
+        description: "Проблема с модом Thermal Expansion.",
+        solutions: [
+          "Обновите Thermal Expansion до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Thermal Expansion"
+        ]
+      },
+      "Applied Energistics 2 error": {
+        title: "Ошибка Applied Energistics 2",
+        severity: "medium",
+        description: "Проблема с модом Applied Energistics 2.",
+        solutions: [
+          "Обновите Applied Energistics 2 до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Applied Energistics 2"
+        ]
+      },
+      "Botania error": {
+        title: "Ошибка Botania",
+        severity: "medium",
+        description: "Проблема с модом Botania.",
+        solutions: [
+          "Обновите Botania до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Botania"
+        ]
+      },
+      "Thaumcraft error": {
+        title: "Ошибка Thaumcraft",
+        severity: "medium",
+        description: "Проблема с модом Thaumcraft.",
+        solutions: [
+          "Обновите Thaumcraft до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Thaumcraft"
+        ]
+      },
+      "Blood Magic error": {
+        title: "Ошибка Blood Magic",
+        severity: "medium",
+        description: "Проблема с модом Blood Magic.",
+        solutions: [
+          "Обновите Blood Magic до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Blood Magic"
+        ]
+      },
+      "Astral Sorcery error": {
+        title: "Ошибка Astral Sorcery",
+        severity: "medium",
+        description: "Проблема с модом Astral Sorcery.",
+        solutions: [
+          "Обновите Astral Sorcery до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Astral Sorcery"
+        ]
+      },
+      "Twilight Forest error": {
+        title: "Ошибка Twilight Forest",
+        severity: "medium",
+        description: "Проблема с модом Twilight Forest.",
+        solutions: [
+          "Обновите Twilight Forest до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Twilight Forest"
+        ]
+      },
+      "Betweenlands error": {
+        title: "Ошибка Betweenlands",
+        severity: "medium",
+        description: "Проблема с модом Betweenlands.",
+        solutions: [
+          "Обновите Betweenlands до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Betweenlands"
+        ]
+      },
+      "Aether error": {
+        title: "Ошибка Aether",
+        severity: "medium",
+        description: "Проблема с модом Aether.",
+        solutions: [
+          "Обновите Aether до последней версии",
+          "Убедитесь в совместимости с другими модами",
+          "Временно отключите Aether"
+        ]
+      }
+    };
+
+    fileSelectBtn.addEventListener('click', () => fileInput.click());
+    
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = (event) => {
+          logInput.value = event.target.result;
+          addToLogHistory(`Загружен файл: ${file.name}`);
+        };
+        
+        reader.readAsText(file);
+      }
+    });
+    
+    fileDropArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      fileDropArea.classList.add('active');
+    });
+    
+    fileDropArea.addEventListener('dragleave', () => {
+      fileDropArea.classList.remove('active');
+    });
+    
+    fileDropArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      fileDropArea.classList.remove('active');
+      
+      if (e.dataTransfer.files.length > 0) {
+        const file = e.dataTransfer.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = (event) => {
+          logInput.value = event.target.result;
+          addToLogHistory(`Перетащен файл: ${file.name}`);
+        };
+        
+        reader.readAsText(file);
+      }
+    });
+    
+    analyzeBtn.addEventListener('click', () => {
+      const logText = logInput.value.trim();
+      
+      if (logText.length === 0) {
+        showNotification("Пожалуйста, введите или загрузите лог для анализа", "error");
+        return;
+      }
+      
+      const analysisResult = analyzeLog(logText);
+      displayResults(analysisResult);
+      addToLogHistory(`Выполнен анализ лога (${analysisResult.errors.length} ошибок)`);
+    });
+    
+    clearBtn.addEventListener('click', () => {
+      logInput.value = '';
+      fileInput.value = '';
+      resultContainer.classList.add('hidden');
+      emptyResult.classList.remove('hidden');
+    });
+    
+    function showNotification(message, type = "info") {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.innerHTML = `
+        <div class="notification-title">
+          <span class="mr-2">${type === 'error' ? '⚠️' : '✅'}</span>
+          ${type === 'error' ? 'Ошибка' : 'Успех'}
+        </div>
+        <p>${message}</p>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.classList.add('show');
+      }, 10);
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 400);
+      }, 5000);
+    }
+    
+    function analyzeLog(logText) {
+      const errors = [];
+      const lines = logText.split('\n');
+      
+      for (const [pattern, errorInfo] of Object.entries(errorDatabase)) {
+        const regex = new RegExp(pattern, 'i');
+        const matches = logText.match(regex);
+        
+        if (matches) {
+          const errorLines = lines.filter(line => regex.test(line));
+          
+          errors.push({
+            ...errorInfo,
+            pattern: pattern,
+            occurrences: matches.length,
+            lines: errorLines
+          });
+        }
+      }
+      
+      const severityOrder = {critical: 0, high: 1, medium: 2, low: 3};
+      errors.sort((a, b) => severityOrder[a.severity] - severityOrder[b.severity]);
+      
+      const unknownErrors = [];
+      const errorRegex = /error|exception|crash|fail|warning|ошибка|исключение|краш|сбой|предупреждение/gi;
+      const knownPatterns = Object.keys(errorDatabase);
+      
+      lines.forEach((line, index) => {
+        if (errorRegex.test(line)) {
+          const isKnown = knownPatterns.some(pattern => {
+            const regex = new RegExp(pattern, 'i');
+            return regex.test(line);
+          });
+          
+          if (!isKnown) {
+            unknownErrors.push({
+              title: "Неизвестная ошибка",
+              severity: "medium",
+              description: "Обнаружена нераспознанная ошибка. Скопируйте и отправьте в поддержку",
+              pattern: "unknown",
+              occurrences: 1,
+              lines: [line]
+            });
+          }
+        }
+      });
+      
+      return {
+        errors: [...errors, ...unknownErrors],
+        lineCount: lines.length,
+        errorCount: errors.length + unknownErrors.length
+      };
+    }
+    
+    function displayResults(result) {
+      resultContainer.classList.remove('hidden');
+      emptyResult.classList.add('hidden');
+      
+      errorSummary.innerHTML = '';
+      errorDetails.innerHTML = '';
+      solutions.innerHTML = '';
+      
+      if (result.errors.length === 0) {
+        errorSummary.innerHTML = `
+          <div class="p-4 rounded-lg text-center" style="background: rgba(16, 185, 129, 0.2);">
+            <div class="text-3xl mb-3">✅</div>
+            <p class="text-lg font-medium">Ошибки не обнаружены!</p>
+            <p class="text-gray-300 mt-2">Ваш лог-файл не содержит известных проблем. Пожалуйста обратитесь в поддержку.</p>
+          </div>
+        `;
+      } else {
+        const groupedErrors = {
+          critical: result.errors.filter(e => e.severity === 'critical'),
+          high: result.errors.filter(e => e.severity === 'high'),
+          medium: result.errors.filter(e => e.severity === 'medium'),
+          low: result.errors.filter(e => e.severity === 'low')
+        };
+        
+        let summaryHTML = `
+          <div class="grid grid-cols-1 grid-cols-2 gap-4">
+            <div class="p-4 rounded-lg ${groupedErrors.critical.length ? 'bg-error' : 'bg-gray-700'}">
+              <div class="flex justify-between items-center">
+                <span class="font-bold">Критические ошибки:</span>
+                <span class="text-2xl font-bold">${groupedErrors.critical.length}</span>
+              </div>
+            </div>
+            
+            <div class="p-4 rounded-lg ${groupedErrors.high.length ? 'bg-error' : 'bg-gray-700'}">
+              <div class="flex justify-between items-center">
+                <span class="font-bold">Высокая важность:</span>
+                <span class="text-2xl font-bold">${groupedErrors.high.length}</span>
+              </div>
+            </div>
+            
+            <div class="p-4 rounded-lg ${groupedErrors.medium.length ? 'bg-warning' : 'bg-gray-700'}">
+              <div class="flex justify-between items-center">
+                <span class="font-bold">Средняя важность:</span>
+                <span class="text-2xl font-bold">${groupedErrors.medium.length}</span>
+              </div>
+            </div>
+            
+            <div class="p-4 rounded-lg ${groupedErrors.low.length ? 'bg-primary' : 'bg-gray-700'}">
+              <div class="flex justify-between items-center">
+                <span class="font-bold">Низкая важность:</span>
+                <span class="text-2xl font-bold">${groupedErrors.low.length}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        errorSummary.innerHTML = summaryHTML;
+        
+        result.errors.forEach((error, index) => {
+          const severityClass = `severity-${error.severity}`;
+          
+          const errorHTML = `
+            <div class="${severityClass} p-4 rounded-lg" id="error-${index}">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h5 class="font-bold text-lg">${index + 1}. ${error.title}</h5>
+                  <p class="text-gray-300 text-sm mt-1">${error.description}</p>
+                </div>
+                <div class="flex items-center">
+                  <span class="error-tag">${error.severity === 'critical' ? 'Критично' : 
+                    error.severity === 'high' ? 'Высокая' : 
+                    error.severity === 'medium' ? 'Средняя' : 'Низкая'}</span>
+                </div>
+              </div>
+              
+              <div class="mt-3">
+                <p class="text-gray-400 text-sm">Найдено вхождений: ${error.occurrences}</p>
+                <div class="mt-2 max-h-24 overflow-y-auto bg-gray-900 p-2 rounded" id="error-lines-${index}">
+                  ${error.lines.slice(0, 5).map(line => 
+                    `<div class="log-line text-xs">${line}</div>`
+                  ).join('')}
+                  ${error.lines.length > 5 ? `<div class="text-gray-500 text-xs mt-1">...и еще ${error.lines.length - 5} строк</div>` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+          
+          errorDetails.innerHTML += errorHTML;
+        });
+        
+        const uniqueSolutions = new Set();
+        
+        result.errors.forEach(error => {
+          if (error.solutions) {
+            error.solutions.forEach(solution => uniqueSolutions.add(solution));
+          }
+        });
+        
+        if (uniqueSolutions.size > 0) {
+          solutions.innerHTML = Array.from(uniqueSolutions).map((solution, i) => `
+            <div class="flex items-start">
+              <div class="w-6 h-6 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0" style="background: rgba(16, 185, 129, 0.2);">
+                <span style="color: #10b981; font-size: 12px;">${i + 1}</span>
+              </div>
+              <p>${solution}</p>
+            </div>
+          `).join('');
+        } else {
+          solutions.innerHTML = `
+            <div class="text-gray-400 italic">
+              Для данных ошибок нет специфических решений. Пожалуйста обратитесь в поддержку.
+            </div>
+          `;
+        }
+      }
+    }
+    
+    function addToLogHistory(message) {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString();
+      
+      const logEntry = `
+        <div class="log-line flex items-center text-sm">
+          <span class="text-gray-500 mr-2">[${timeString}]</span>
+          <span>${message}</span>
+        </div>
+      `;
+      
+      logHistory.innerHTML = logEntry + logHistory.innerHTML;
+      
+      if (logHistory.children.length > 10) {
+        logHistory.removeChild(logHistory.lastChild);
+      }
+    }
+    
+    addToLogHistory("Анализатор запущен. Загрузите лог для анализа.");
+  </script>
+</body>
+</html>
