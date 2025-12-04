@@ -639,14 +639,6 @@
               🔍 Анализировать
             </button>
           </div>
-          
-          <div class="support-buttons">
-            <button id="sendLogBtn" class="btn-diagnostic support-button py-2 rounded-lg font-medium text-white text-sm">
-              📤 Отправить лог в поддержку
-            </button>
-          </div>
-          <p class="text-xs text-center text-gray-400 mt-2">Отправьте свой лог в поддержку в виде файла</p>
-        </div>
         
         <div class="diagnostic-card p-6">
           <div class="text-center mb-6">
@@ -1402,17 +1394,7 @@
       resultContainer.classList.add('hidden');
       emptyResult.classList.remove('hidden');
     });
-    
-    sendLogBtn.addEventListener('click', () => {
-      const logText = logInput.value.trim();
-      if (logText.length === 0) {
-        showNotification("Пожалуйста, введите или загрузите лог для отправки", "error");
-        return;
-      }
-      
-      showNotification("Функция отправки лога в поддержку доступна только при подключении к интернету", "error");
-    });
-    
+
     function showNotification(message, type = "info") {
       const notification = document.createElement('div');
       notification.className = `notification ${type}`;
